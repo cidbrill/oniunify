@@ -1,59 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <title>Oniunify</title>
+    <link id="theme-style" rel="stylesheet" href="dark-styles.css" />
+    <link rel="stylesheet" href="mediaqueries.css" />
 </head>
-
 <body>
-    <script>
-        async function helloWorld() {
-            const res = await fetch("/api")
-            const text = await res.text()
-            console.log(text);
-        }
+    <div id="auth-page">
+        <div id="concealer"></div>
+        <div class="form-divider">
+            <form name="sign-in-form" onsubmit="signIn(event)">
+                <div id="sign-in-panel">
+                    <div class="input-field">
+                        <input type="text" id="sign-in-username" required>
+                        <label for="sign-in-username">Username</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="sign-in-password" required>
+                        <label for="sign-in-password">Password</label>
+                    </div>
+                    <div id="button-area">
+                        <button type="submit" id="sign-in-button">Sign In</button>
+                    </div>
+                    <div class="text-area">
+                        <p><b id="forgot-password">Forgot your password?</b></p>
+                    </div>
+                    <div class="text-area">
+                        <p>Need an account? <b id="sign-up">Sign Up</b></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-divider">
+            <form name="sign-up-form" onsubmit="signUp(event)">
+                <div id="sign-up-panel">
+                    <div class="input-field">
+                        <input type="text" id="sign-up-username" required>
+                        <label for="sign-up-username">Username</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="email" required>
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="sign-up-password" required>
+                        <label for="sign-up-password">Password</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="confirm-password" required>
+                        <label for="confirm-password">Confirm Password</label>
+                    </div>
+                    <div id="button-area">
+                        <button type="submit" id="sign-up-button">Sign Up</button>
+                    </div>
+                    <div class="text-area">
+                        <p>Already have an account? <b id="sign-in">Sign In</b></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="home-page">
+		<div class="home-divider" id="left-panel">
+            <div id="top-container">
+                <div id="logo-icon">
+                    <img src="assets/dark/logo.png" id="logo-icon-image" alt="oniunify_icon" />
+                    <p>Oniunify</p>
+                </div>
+                <div id="home-page-button" class="button-container">
+                    <img src="assets/dark/home_icon.png" id="home-icon-image" alt="home_icon" />
+                    <p>Home</p>
+                </div>
+                <div class="button-container">
+                    <img src="assets/dark/explore_icon.png" id="explore-icon-image" alt="explore_icon" />
+                    <p>Explore</p>
+                </div>
+                <div class="button-container">
+                    <img src="assets/dark/notifications_icon.png" id="notifications-icon-image" alt="notifications_icon" />
+                    <p>Notifications</p>
+                </div>
+                <div class="button-container">
+                    <img src="assets/dark/messages_icon.png" id="messages-icon-image" alt="message_icon" />
+                    <p>Message</p>
+                </div>
+                <div id="profile-page-button" class="button-container">
+                    <img src="assets/dark/profile_icon.png" id="profile-icon-image" alt="profile_icon" />
+                    <p>Profile</p>
+                </div>
+                <div id="mode-container" class="button-container" onclick="toggleTheme()">
+                    <img src="assets/dark/moon.png" id="theme-icon" alt="moon_icon"> 
+                    <p>Mode</p>
+                </div>
+                <button id="left-post-button"><b>Post</b></button>
+            </div>
+            <div id="bottom-container">
+                <div id="switch-profile-button-container" onclick="toggleContainer(event)">
+                    <div id="user-pfp">
+                        <img src="assets/dark/profile.png" class="profile-image" alt="profile_icon" />
+                    </div>
+                    <div id="user-id">
+                        <p id="profile-username">USERNAME</p>
+                        <p>@handle</p>
+                    </div>
+                    <div id="three-dots">
+                        <img src="assets/dark/three_dots.png" id="three-dots-image">
+                    </div>
+                </div>
+            </div>
+            <div id="account-settings-container">
+                <p onclick="logout()" style="cursor: pointer;">Log out @handle</p>
+            </div>
+        </div>
+		<div class="home-divider" id="middle-panel">
+            <div id="timeline-page">
+                <div class="top-nav-container">
+                    <div class="top-nav-split">
+                        <p><b>For You</b></p>
+                    </div>
+                    <div class="top-nav-split">
+                        <p><b>Following</b></p>
+                    </div>
+                    <div id="top-nav-slider"></div>
+                    <div id="settings-icon">
+                        <div id="settings-background">
+                            <img src="assets/dark/settings_icon.png" id="settings-icon-image" alt="settings_icon"/>
+                        </div>
+                    </div>
+                </div>
+                <div id="create-post-container">
+                    <div id="create-post-left">
+                        <img src="assets/dark/profile.png" class="profile-image" alt="profile_icon" />
+                    </div>
+                    <div id="create-post-right">
+                        <textarea id="create-post-textarea" maxlength="280" placeholder="What is happening?!"></textarea>
+                        <div id="create-post-buttons">
+                            <button id="middle-post-button" onclick="createPost()"><b>Post</b></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="timeline-posts-container" class="posts-container"></div>
+            </div>
+            <div id="profile-page">
+                <div class="top-nav-container">
+                    <div id="back-icon">
+                        <div id="back-background">
+                            <img src="assets/dark/back_button.png" id="back-button" alt="back_button" />
+                        </div>
+                    </div>
+                    <div id="user-info">
+                        <p class="profile-username"><b>USERNAME</b></p>
+                        <p id="post-count">0 posts</p>
+                    </div>
+                </div>
+                <div id="banner-photo-container">
 
-        async function register() {
-            const res = await fetch("/api/v1/auth/register", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: "joblipat",
-                    password: "password"
-                })
-            })
-            return await res.text()
-        }
-
-        async function login() {
-            const res = await fetch("/api/v1/auth/login", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: "joblipat",
-                    password: "password"
-                })
-            })
-            const token = await res.text()
-            console.log(token);
-
-        }
-
-        async function start() {
-            await helloWorld()
-            await register()
-            await login()
-        }
-
-        start()
-    </script>
-    <p>Hello world. This is a sample page. Check the console to see if the front end is connected to the UI! </p>
+                </div>
+                <div id="profile-info">
+                    <div id="left-split" class="profile-info-split">
+                        <div id="profile-photo">
+                            <img src="assets/dark/profile.png" class="profile-image" alt="profile_icon" />
+                        </div>
+                        <div id="profile-name">
+                            <p class="profile-username"><b>USERNAME<b></p>
+                            <p>@handle</p>
+                        </div>
+                        <div id="follow-count">
+                            <p id="following-count">0 Following</p>
+                            <p id="follower-count">0 Followers</p>
+                        </div>
+                    </div>
+                    <div id="right-split" class="profile-info-split">
+                        <button id="edit-profile" class="right-split-button"><b>Edit Profile</b></button>
+                        <button id="follow" class="right-split-button" onclick="followUser()"><b>Follow</b></button>
+                        <button id="unfollow" class="right-split-button" onclick="unfollowUser()"><b>Unfollow</b></button>
+                    </div>
+                </div>
+                <div id="profile-page-tabs">
+                    <div class="profile-tabs-split">
+                        <p><b>Tweets</b></p>
+                    </div>
+                    <div class="profile-tabs-split">
+                        <p><b>Likes</b></p>
+                    </div>
+                    <div id="profile-tabs-slider"></div>
+                </div>
+                <div id="profile-posts-container" class="posts-container"></div>
+                <div id="searched-user-posts-container" class="posts-container"></div>
+            </div>
+        </div>
+        <div class="home-divider" id="right-panel">
+            <div id="search-bar">
+                <img src="assets/dark/search_icon.png" id="search-icon" alt="search_icon">
+                <input type="text" id="search-input" placeholder="Search">
+            </div>
+            <div id="subscription-tab">
+                <h2>Subscribe to Premium</h2>
+                <p>Subscribe to unlock new features and if eligible, receive a share of ads revenue.</p>
+                <button id="subscribe-button"><b>Subscribe</b></button>
+            </div>
+            <div id="trends-tab">
+                <div class="trend-container">
+                    <h2>Trends for you</h2>
+                </div>
+                <div class="trend-container">
+                    <div class="three-dots">
+                        <img src="assets/three_dots_gray.png">
+                    </div>
+                    <small>Trending in Philippines</small>
+                    <p><b>Blythe</b></p>
+                    <small>4,563 posts</small>
+                </div>
+                <div class="trend-container">
+                    <div class="three-dots">
+                        <img src="assets/three_dots_gray.png">
+                    </div>
+                    <small>Trending in Philippines</small>
+                    <p><b>MAY POGI NA SA PINAS</b></p>
+                    <small>10.2K posts</small>
+                </div>
+                <div class="trend-container">
+                    <div class="three-dots">
+                        <img src="assets/three_dots_gray.png">
+                    </div>
+                    <small>Trending in Philippines</small>
+                    <p><b>#AndreaBrillantes</b></p>
+                    <small>1,682 posts</small>
+                </div>
+                <div class="trend-container">
+                    <div class="three-dots">
+                        <img src="assets/three_dots_gray.png">
+                    </div>
+                    <small>Trending in Philippines</small>
+                    <p><b>Gwanhee</b></p>
+                    <small>2,123 posts</small>
+                </div>
+                <div class="trend-container">
+                    <div class="three-dots">
+                        <img src="assets/three_dots_gray.png">
+                    </div>
+                    <small>Music . Trending</small>
+                    <p><b>#FATE_IN_NEWCLARK_CITY</b></p>
+                    <small>24.3K posts</small>
+                </div>
+                <div class="trend-container">
+                    <div class="three-dots">
+                        <img src="assets/three_dots_gray.png">
+                    </div>
+                    <small>Trending in Philippines</small>
+                    <p><b>#KyleDrea</b></p>
+                    <small>2,584 posts</small>
+                </div>
+                <div class="trend-container">
+                    <div class="three-dots">
+                        <img src="assets/three_dots_gray.png">
+                    </div>
+                    <small>Actors . Trending</small>
+                    <p><b>#LeeSungKyung</b></p>
+                </div>
+                <div class="trend-container">
+                    <div class="three-dots">
+                        <img src="assets/three_dots_gray.png">
+                    </div>
+                    <small>Celebrities . Trending</small>
+                    <p><b>#ForeverKapamilyaKathryn</b></p>
+                    <small>29.5K posts</small>
+                </div>
+            </div>
+        </div>
+	</div>
+    <script src="script.js"></script>
 </body>
-
 </html>
